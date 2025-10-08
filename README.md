@@ -84,6 +84,8 @@ Les points de victoire sont comptés en additionnant **toutes les cartes de vict
 2. **Piocher** pour revenir à 5 cartes en main
 3. Si le deck est vide → mélanger la défausse qui devient le nouveau deck
 
+### Accès compte rendu
+Lien compte rendu : https://www.notion.so/2852160e7f5b80d5b21dfd14d2f722ef?v=2852160e7f5b808b9639000c96e77146
 ---
 
 *Projet dans le cadre du cours Sciences de l'Ingénieur - Gestion de projet et développement d'API HTTP*
