@@ -2,7 +2,7 @@ from dopynion.data_model import CardName, Game, Player, Hand, Cards
 from BOOT import (
     count_copper_in_hand,
     is_estate_available_in_stock,
-    find_our_player,
+    get_player_hand_as_list,
     should_buy_estate,
 )
 
@@ -60,11 +60,11 @@ class TestIsEstateAvailableInStock:
         assert is_estate_available_in_stock(stock) == False
 
 
-class TestFindOurPlayer:
-    """Tests for find_our_player function."""
+class TestGetPlayerHandAsList:
+    """Tests for get_player_hand_as_list function."""
     
-    def test_find_our_player_with_cards(self):
-        """Test finding our player when they have cards (their turn)."""
+    def test_get_player_hand_with_cards(self):
+        """Test getting our player's hand when they have cards."""
         players = [
             Player(name="Other Player", hand=Cards(quantities={}), score=0),
             Player(name="Rhum & Ruin", hand=Cards(quantities={CardName.COPPER: 2, CardName.ESTATE: 1}), score=0),
@@ -72,23 +72,21 @@ class TestFindOurPlayer:
         ]
         game = Game(finished=False, players=players, stock=Cards())
         
-        result = find_our_player(game)
-        assert result is not None
-        # Should return hand with 2 Copper + 1 Estate = 3 cards total
-        assert len(result.hand) == 3
-        assert result.hand.count(CardName.COPPER) == 2
-        assert result.hand.count(CardName.ESTATE) == 1
+        result = get_player_hand_as_list(game)
+        assert len(result) == 3
+        assert result.count(CardName.COPPER) == 2
+        assert result.count(CardName.ESTATE) == 1
     
-    def test_find_our_player_empty_hand(self):
-        """Test when our player exists but has no cards (not their turn)."""
+    def test_get_player_hand_empty_hand(self):
+        """Test when our player exists but has no cards."""
         players = [
             Player(name="Other Player", hand=Cards(quantities={CardName.COPPER: 1}), score=0),
             Player(name="Rhum & Ruin", hand=Cards(quantities={}), score=0),
         ]
         game = Game(finished=False, players=players, stock=Cards())
         
-        result = find_our_player(game)
-        assert result is None
+        result = get_player_hand_as_list(game)
+        assert result == []
     
     def test_our_player_not_found(self):
         """Test when our player is not in the game."""
@@ -98,15 +96,15 @@ class TestFindOurPlayer:
         ]
         game = Game(finished=False, players=players, stock=Cards())
         
-        result = find_our_player(game)
-        assert result is None
+        result = get_player_hand_as_list(game)
+        assert result == []
     
     def test_empty_players_list(self):
         """Test with empty players list."""
         game = Game(finished=False, players=[], stock=Cards())
         
-        result = find_our_player(game)
-        assert result is None
+        result = get_player_hand_as_list(game)
+        assert result == []
 
 
 class TestShouldBuyEstate:
