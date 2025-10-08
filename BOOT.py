@@ -15,6 +15,10 @@ from fastapi import Depends, FastAPI, Header, Request
 from fastapi.responses import HTMLResponse, JSONResponse
 from pydantic import BaseModel
 
+# Import our strategy modules
+from game_state import GameState, get_game_state
+from strategy import should_buy_estate
+
 app = FastAPI()
 
 #####################################################
@@ -89,84 +93,8 @@ def root() -> str:
 
 
 #####################################################
-# The code of the strategy
+# API Routes - Game lifecycle
 #####################################################
-
-# Global variable to track how many purchases we can still make this turn
-purchases_remaining_this_turn = 1
-
-
-def count_copper_in_hand(hand: list[CardName]) -> int:
-    """Count the number of Copper cards in the given hand."""
-    copper_count = hand.count(CardName.COPPER)
-    print(f"🪙 Copper count in hand: {copper_count} (total cards: {len(hand)})")
-    return copper_count
-
-
-def is_estate_available_in_stock(stock: Cards) -> bool:
-    """Check if Estate cards are available in the stock."""
-    estate_quantity = stock.quantities.get(CardName.ESTATE, 0)
-    available = estate_quantity > 0
-    print(f"🏘️ Estate availability in stock: {estate_quantity} cards available -> {available}")
-    return available
-
-
-def get_player_hand_as_list(game: Game) -> list[CardName]:
-    """Get our player's hand as a list of CardName.
-    Since we receive the /play request, it's our turn and our hand should be the active one."""
-    print(f"🎮 Looking for player 'Rhum & Ruin' among {len(game.players)} players")
-    
-    for player in game.players:
-        print(f"   - Player: {player.name}, hand: {player.hand}")
-        if "Rhum & Ruin" in player.name and player.hand is not None:
-            # Convert Cards (quantities) to list of CardName
-            hand_list = []
-            for card_name, quantity in player.hand.quantities.items():
-                hand_list.extend([card_name] * quantity)
-            print(f"✅ Found our player! Hand: {hand_list}")
-            return hand_list
-    
-    print("❌ Our player 'Rhum & Ruin' not found or has no hand!")
-    return []
-
-
-def should_buy_estate(game: Game) -> bool:
-    """Determine if we should buy an Estate card based on our strategy."""
-    global purchases_remaining_this_turn
-    
-    print("\n" + "="*50)
-    print("🤔 EVALUATING ESTATE PURCHASE STRATEGY")
-    print("="*50)
-    
-    # Check if we have any purchases remaining this turn
-    if purchases_remaining_this_turn <= 0:
-        print(f"❌ Cannot buy Estate: No purchases remaining this turn (0/{purchases_remaining_this_turn})")
-        print("="*50 + "\n")
-        return False
-    
-    # Get our hand as a list
-    our_hand = get_player_hand_as_list(game)
-    if not our_hand:  # Empty hand means something went wrong
-        print("❌ Cannot buy Estate: No hand found")
-        print("="*50 + "\n")
-        return False
-    
-    # Check if we have at least 2 Copper cards
-    copper_count = count_copper_in_hand(our_hand)
-    if copper_count < 2:
-        print(f"❌ Cannot buy Estate: Need 2+ Copper, but only have {copper_count}")
-        print("="*50 + "\n")
-        return False
-    
-    # Check if Estate is available in stock
-    if not is_estate_available_in_stock(game.stock):
-        print("❌ Cannot buy Estate: No Estate available in stock")
-        print("="*50 + "\n")
-        return False
-    
-    print(f"✅ ALL CONDITIONS MET! Will buy Estate (purchases remaining: {purchases_remaining_this_turn})")
-    print("="*50 + "\n")
-    return True
 
 
 @app.get("/name")
@@ -182,23 +110,23 @@ def start_game(game_id: GameIdDependency) -> DopynionResponseStr:
 
 @app.get("/start_turn")
 def start_turn(game_id: GameIdDependency) -> DopynionResponseStr:
-    global purchases_remaining_this_turn
-    purchases_remaining_this_turn = 1  # Reset purchases to 1 for new turn
-    print(f"▶️ TURN STARTED - Game ID: {game_id} (Purchases reset to {purchases_remaining_this_turn})")
+    game_state = get_game_state(game_id)
+    game_state.reset_turn()
+    print(f"▶️ TURN STARTED - Game ID: {game_id}")
     return DopynionResponseStr(game_id=game_id, decision="OK")
 
 
 @app.post("/play")
 def play(game: Game, game_id: GameIdDependency) -> DopynionResponseStr:
-    global purchases_remaining_this_turn
+    game_state = get_game_state(game_id)
     
     print(f"\n🎯 RECEIVED PLAY REQUEST - Game ID: {game_id}")
     print(f"📊 Game state: {len(game.players)} players, finished: {game.finished}")
-    print(f"🏪 Purchase status: {purchases_remaining_this_turn} purchases remaining this turn")
+    print(f"🏪 Purchase status: {game_state.purchases_remaining_this_turn} purchases remaining this turn")
     
-    if should_buy_estate(game):
-        purchases_remaining_this_turn -= 1  # Consume one purchase
-        print(f"🛒 DECISION: BUY ESTATE (Purchases remaining: {purchases_remaining_this_turn})")
+    if should_buy_estate(game, game_state):
+        game_state.use_purchase()  # Consume one purchase
+        print(f"🛒 DECISION: BUY ESTATE")
         return DopynionResponseStr(game_id=game_id, decision="BUY ESTATE")
     
     print("⏭️ DECISION: END_TURN")
@@ -209,6 +137,11 @@ def play(game: Game, game_id: GameIdDependency) -> DopynionResponseStr:
 def end_game(game_id: GameIdDependency) -> DopynionResponseStr:
     print(f"🏁 GAME ENDED - Game ID: {game_id}")
     return DopynionResponseStr(game_id=game_id, decision="OK")
+
+
+#####################################################
+# API Routes - Card interactions
+#####################################################
 
 
 @app.post("/confirm_discard_card_from_hand")

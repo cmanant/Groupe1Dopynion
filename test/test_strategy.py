@@ -1,10 +1,11 @@
 from dopynion.data_model import CardName, Game, Player, Hand, Cards
-from BOOT import (
+from game_state import GameState
+from strategy_helpers import (
     count_copper_in_hand,
     is_estate_available_in_stock,
     get_player_hand_as_list,
-    should_buy_estate,
 )
+from strategy import should_buy_estate
 
 
 class TestCountCopperInHand:
@@ -117,8 +118,21 @@ class TestShouldBuyEstate:
         ]
         stock = Cards(quantities={CardName.ESTATE: 5, CardName.COPPER: 10})
         game = Game(finished=False, players=players, stock=stock)
+        game_state = GameState("test_game")
         
-        assert should_buy_estate(game) == True
+        assert should_buy_estate(game, game_state) == True
+    
+    def test_should_not_buy_estate_no_purchases_remaining(self):
+        """Test when no purchases remaining this turn."""
+        players = [
+            Player(name="Rhum & Ruin", hand=Cards(quantities={CardName.COPPER: 3}), score=0),
+        ]
+        stock = Cards(quantities={CardName.ESTATE: 5, CardName.COPPER: 10})
+        game = Game(finished=False, players=players, stock=stock)
+        game_state = GameState("test_game")
+        game_state.purchases_remaining_this_turn = 0  # No purchases left
+        
+        assert should_buy_estate(game, game_state) == False
     
     def test_should_not_buy_estate_not_our_turn(self):
         """Test when it's not our turn (empty hand)."""
@@ -127,8 +141,9 @@ class TestShouldBuyEstate:
         ]
         stock = Cards(quantities={CardName.ESTATE: 5, CardName.COPPER: 10})
         game = Game(finished=False, players=players, stock=stock)
+        game_state = GameState("test_game")
         
-        assert should_buy_estate(game) == False
+        assert should_buy_estate(game, game_state) == False
     
     def test_should_not_buy_estate_insufficient_copper(self):
         """Test when we have less than 2 copper cards."""
@@ -137,8 +152,9 @@ class TestShouldBuyEstate:
         ]
         stock = Cards(quantities={CardName.ESTATE: 5, CardName.COPPER: 10})
         game = Game(finished=False, players=players, stock=stock)
+        game_state = GameState("test_game")
         
-        assert should_buy_estate(game) == False
+        assert should_buy_estate(game, game_state) == False
     
     def test_should_not_buy_estate_no_copper(self):
         """Test when we have no copper cards."""
@@ -147,8 +163,9 @@ class TestShouldBuyEstate:
         ]
         stock = Cards(quantities={CardName.ESTATE: 5, CardName.COPPER: 10})
         game = Game(finished=False, players=players, stock=stock)
+        game_state = GameState("test_game")
         
-        assert should_buy_estate(game) == False
+        assert should_buy_estate(game, game_state) == False
     
     def test_should_not_buy_estate_no_estate_in_stock(self):
         """Test when estate is not available in stock."""
@@ -157,8 +174,9 @@ class TestShouldBuyEstate:
         ]
         stock = Cards(quantities={CardName.ESTATE: 0, CardName.COPPER: 10})
         game = Game(finished=False, players=players, stock=stock)
+        game_state = GameState("test_game")
         
-        assert should_buy_estate(game) == False
+        assert should_buy_estate(game, game_state) == False
     
     def test_should_not_buy_estate_player_not_found(self):
         """Test when our player is not found in the game."""
@@ -167,8 +185,9 @@ class TestShouldBuyEstate:
         ]
         stock = Cards(quantities={CardName.ESTATE: 5, CardName.COPPER: 10})
         game = Game(finished=False, players=players, stock=stock)
+        game_state = GameState("test_game")
         
-        assert should_buy_estate(game) == False
+        assert should_buy_estate(game, game_state) == False
     
     def test_should_buy_estate_exactly_two_copper(self):
         """Test edge case with exactly 2 copper cards."""
@@ -177,8 +196,9 @@ class TestShouldBuyEstate:
         ]
         stock = Cards(quantities={CardName.ESTATE: 1, CardName.COPPER: 10})
         game = Game(finished=False, players=players, stock=stock)
+        game_state = GameState("test_game")
         
-        assert should_buy_estate(game) == True
+        assert should_buy_estate(game, game_state) == True
     
     def test_should_buy_estate_many_copper(self):
         """Test with many copper cards."""
@@ -187,5 +207,44 @@ class TestShouldBuyEstate:
         ]
         stock = Cards(quantities={CardName.ESTATE: 1, CardName.COPPER: 10})
         game = Game(finished=False, players=players, stock=stock)
+        game_state = GameState("test_game")
         
-        assert should_buy_estate(game) == True
+        assert should_buy_estate(game, game_state) == True
+
+
+class TestGameState:
+    """Tests for GameState class."""
+    
+    def test_game_state_initialization(self):
+        """Test GameState initialization."""
+        game_state = GameState("test_game_123")
+        assert game_state.game_id == "test_game_123"
+        assert game_state.purchases_remaining_this_turn == 1
+    
+    def test_can_purchase(self):
+        """Test can_purchase method."""
+        game_state = GameState("test_game")
+        assert game_state.can_purchase() == True
+        
+        game_state.purchases_remaining_this_turn = 0
+        assert game_state.can_purchase() == False
+    
+    def test_use_purchase(self):
+        """Test use_purchase method."""
+        game_state = GameState("test_game")
+        
+        # Should successfully use purchase
+        assert game_state.use_purchase() == True
+        assert game_state.purchases_remaining_this_turn == 0
+        
+        # Should fail to use purchase when none left
+        assert game_state.use_purchase() == False
+        assert game_state.purchases_remaining_this_turn == 0
+    
+    def test_reset_turn(self):
+        """Test reset_turn method."""
+        game_state = GameState("test_game")
+        game_state.purchases_remaining_this_turn = 0
+        
+        game_state.reset_turn()
+        assert game_state.purchases_remaining_this_turn == 1
