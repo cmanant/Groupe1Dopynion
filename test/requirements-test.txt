@@ -1,0 +1,5 @@
+# Requirements for testing the Rhum & Ruin bot
+pytest>=7.0.0
+fastapi>=0.100.0
+uvicorn>=0.20.0
+httpx>=0.24.0  # For testing FastAPI endpoints

@@ -5,6 +5,7 @@ from typing import Annotated
 from dopynion.data_model import (
     CardName,
     CardNameAndHand,
+    Cards,
     Game,
     Hand,
     MoneyCardsInHand,
@@ -92,6 +93,48 @@ def root() -> str:
 #####################################################
 
 
+def count_copper_in_hand(hand: list[CardName]) -> int:
+    """Count the number of Copper cards in the given hand."""
+    return hand.count(CardName.COPPER)
+
+
+def is_estate_available_in_stock(stock: Cards) -> bool:
+    """Check if Estate cards are available in the stock."""
+    return stock.quantities.get(CardName.ESTATE, 0) > 0
+
+
+def find_our_player(game: Game) -> Hand | None:
+    """Find our player (Rhum & Ruin) and return their hand if it's their turn."""
+    for player in game.players:
+        if player.name == "Rhum & Ruin" and player.hand is not None:
+            # Convert Cards (quantities) to list of CardName for Hand
+            hand_list = []
+            for card_name, quantity in player.hand.quantities.items():
+                hand_list.extend([card_name] * quantity)
+            if len(hand_list) > 0:  # Check if it's their turn (non-empty hand)
+                return Hand(hand=hand_list)
+    return None
+
+
+def should_buy_estate(game: Game) -> bool:
+    """Determine if we should buy an Estate card based on our strategy."""
+    # Find our player
+    our_hand = find_our_player(game)
+    if our_hand is None:
+        return False
+    
+    # Check if we have at least 2 Copper cards
+    copper_count = count_copper_in_hand(our_hand.hand)
+    if copper_count < 2:
+        return False
+    
+    # Check if Estate is available in stock
+    if not is_estate_available_in_stock(game.stock):
+        return False
+    
+    return True
+
+
 @app.get("/name")
 def name() -> str:
     return "Rhum & Ruin"
@@ -109,6 +152,8 @@ def start_turn(game_id: GameIdDependency) -> DopynionResponseStr:
 
 @app.post("/play")
 def play(_game: Game, game_id: GameIdDependency) -> DopynionResponseStr:
+    if should_buy_estate(_game):
+        return DopynionResponseStr(game_id=game_id, decision="BUY ESTATE")
     return DopynionResponseStr(game_id=game_id, decision="END_TURN")
 
 
