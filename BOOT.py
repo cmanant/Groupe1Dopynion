@@ -115,7 +115,7 @@ def get_player_hand_as_list(game: Game) -> list[CardName]:
     
     for player in game.players:
         print(f"   - Player: {player.name}, hand: {player.hand}")
-        if player.name == "Rhum & Ruin" and player.hand is not None:
+        if "Rhum & Ruin" in player.name and player.hand is not None:
             # Convert Cards (quantities) to list of CardName
             hand_list = []
             for card_name, quantity in player.hand.quantities.items():
