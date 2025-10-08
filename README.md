@@ -79,13 +79,12 @@ Les points de victoire sont comptés en additionnant **toutes les cartes de vict
 ⚠️ **Les cartes au rebut ne comptent pas** (elles ne vous appartiennent plus)
 
 ### Phase d'ajustement
-À chaque fin de tour :
+À Cr :
 1. **Ranger** les cartes jouées dans la défausse
 2. **Piocher** pour revenir à 5 cartes en main
 3. Si le deck est vide → mélanger la défausse qui devient le nouveau deck
 
 ### Accès compte rendu
-Lien compte rendu : https://www.notion.so/2852160e7f5b80d5b21dfd14d2f722ef?v=2852160e7f5b808b9639000c96e77146
----
+Lien compte rendu : https://nosy-verdict-e0d.notion.site/2852160e7f5b80d5b21dfd14d2f722ef?v=2852160e7f5b808b9639000c96e77146&p=2852160e7f5b801ba6c1c47c6e6e6c04&pm=s
 
 *Projet dans le cadre du cours Sciences de l'Ingénieur - Gestion de projet et développement d'API HTTP*
