@@ -92,6 +92,9 @@ def root() -> str:
 # The code of the strategy
 #####################################################
 
+# Global variable to track how many purchases we can still make this turn
+purchases_remaining_this_turn = 1
+
 
 def count_copper_in_hand(hand: list[CardName]) -> int:
     """Count the number of Copper cards in the given hand."""
@@ -129,9 +132,17 @@ def get_player_hand_as_list(game: Game) -> list[CardName]:
 
 def should_buy_estate(game: Game) -> bool:
     """Determine if we should buy an Estate card based on our strategy."""
+    global purchases_remaining_this_turn
+    
     print("\n" + "="*50)
     print("🤔 EVALUATING ESTATE PURCHASE STRATEGY")
     print("="*50)
+    
+    # Check if we have any purchases remaining this turn
+    if purchases_remaining_this_turn <= 0:
+        print(f"❌ Cannot buy Estate: No purchases remaining this turn (0/{purchases_remaining_this_turn})")
+        print("="*50 + "\n")
+        return False
     
     # Get our hand as a list
     our_hand = get_player_hand_as_list(game)
@@ -153,7 +164,7 @@ def should_buy_estate(game: Game) -> bool:
         print("="*50 + "\n")
         return False
     
-    print("✅ ALL CONDITIONS MET! Will buy Estate")
+    print(f"✅ ALL CONDITIONS MET! Will buy Estate (purchases remaining: {purchases_remaining_this_turn})")
     print("="*50 + "\n")
     return True
 
@@ -171,17 +182,23 @@ def start_game(game_id: GameIdDependency) -> DopynionResponseStr:
 
 @app.get("/start_turn")
 def start_turn(game_id: GameIdDependency) -> DopynionResponseStr:
-    print(f"▶️ TURN STARTED - Game ID: {game_id}")
+    global purchases_remaining_this_turn
+    purchases_remaining_this_turn = 1  # Reset purchases to 1 for new turn
+    print(f"▶️ TURN STARTED - Game ID: {game_id} (Purchases reset to {purchases_remaining_this_turn})")
     return DopynionResponseStr(game_id=game_id, decision="OK")
 
 
 @app.post("/play")
 def play(game: Game, game_id: GameIdDependency) -> DopynionResponseStr:
+    global purchases_remaining_this_turn
+    
     print(f"\n🎯 RECEIVED PLAY REQUEST - Game ID: {game_id}")
     print(f"📊 Game state: {len(game.players)} players, finished: {game.finished}")
+    print(f"🏪 Purchase status: {purchases_remaining_this_turn} purchases remaining this turn")
     
     if should_buy_estate(game):
-        print("🛒 DECISION: BUY ESTATE")
+        purchases_remaining_this_turn -= 1  # Consume one purchase
+        print(f"🛒 DECISION: BUY ESTATE (Purchases remaining: {purchases_remaining_this_turn})")
         return DopynionResponseStr(game_id=game_id, decision="BUY ESTATE")
     
     print("⏭️ DECISION: END_TURN")
