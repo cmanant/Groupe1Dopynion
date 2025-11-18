@@ -87,4 +87,128 @@ Les points de victoire sont comptés en additionnant **toutes les cartes de vict
 ### Accès compte rendu
 Lien compte rendu : https://nosy-verdict-e0d.notion.site/2852160e7f5b80d5b21dfd14d2f722ef?v=2852160e7f5b808b9639000c96e77146&p=2852160e7f5b801ba6c1c47c6e6e6c04&pm=s
 
+### Liste des cartes utilisées 
+Trésors : 
+Copper – 0 – Trésor
++1 pièce.
+
+Silver – 3 – Trésor
++2 pièces.
+
+Gold – 6 – Trésor
++3 pièces.
+
+Cursed Gold – 4 – Trésor (custom)
+Quand tu le joues : +3 pièces et tu gagnes 1 Curse (si disponible).
+
+Victoire
+
+Estate – 2 – Victoire
++1 point de victoire.
+
+Duchy – 5 – Victoire
++3 points de victoire.
+
+Province – 8 – Victoire
++6 points de victoire.
+
+Colony – 11 – Victoire
++10 points de victoire.
+
+Gardens – 4 – Victoire (custom Dominion)
+Score en fin de partie : +1 point de victoire par tranche de 10 cartes dans ton deck (deck complet : pioche + main + défausse + cartes en jeu).
+
+Malédiction
+Curse – 0 – Malédiction
+−1 point de victoire.
+
+Actions / Attaques “classiques”
+Village – 3 – Action
++1 carte, +2 actions.
+
+Smithy – 4 – Action
++3 cartes.
+Market – 5 – Action
++1 carte, +1 action, +1 achat, +1 pièce.
+
+Festival – 5 – Action
++2 actions, +1 achat, +2 pièces.
+
+Laboratory – 5 – Action
++2 cartes, +1 action.
+
+Woodcutter – 3 – Action
++1 achat, +2 pièces.
+
+Council Room – 5 – Action
++4 cartes, +1 achat.
+Chaque autre joueur pioche 1 carte.
+
+Distant Shore – 6 – Action
++2 cartes, +1 action.
+Quand tu la joues : tu gagnes 1 Estate.
+
+Farming Village – 4 – Action
+Révèle des cartes de ton deck jusqu’à trouver une Action ou un Trésor : la carte trouvée va en main, le reste va en défausse.
+Ensuite : +2 actions.
+
+Hireling – 6 – Action – Durée “permanente”
+Effet continu tant qu’elle reste en jeu : au début de chacun de tes tours, +1 carte supplémentaire (dans ton moteur local on la garde en in_play pour matérialiser l’effet).
+
+Chancellor – 3 – Action
++2 pièces.
+Optionnel (dans la version complète) : tu peux défausser tout ton deck dans ta défausse.
+
+Attaques
+Witch – 5 – Action – Attaque
++2 cartes.
+Chaque autre joueur gagne 1 Curse (si des Curses restent dans la pile).
+
+Militia – 4 – Action – Attaque
++2 pièces.
+Chaque autre joueur doit défausser jusqu’à n’avoir plus que 3 cartes en main.
+
+Bandit – 5 – Action – Attaque
+Tu gagnes 1 Gold.
+Chaque autre joueur révèle les 2 premières cartes de son deck, trash 1 Trésor non-Copper (Gold en priorité sinon Silver), puis défausse les cartes restantes.
+
+Bureaucrat – 4 – Action – Attaque
+Tu gagnes 1 Silver sur le dessus de ton deck.
+Chaque autre joueur met une carte Victoire de sa main sur le dessus de son deck (s’il en a).
+
+Actions custom / support
+
+Artificer – 5 – Action (custom)
++1 carte, +1 action, +1 pièce.
+Ensuite tu peux défausser autant de cartes de ta main que tu veux :
+– X = nombre de cartes réellement défaussées,
+– tu gagnes une carte de coût X (suivant la logique de ta strat).
+
+Marquis – 6 – Action (custom)
++1 achat.
+Tu pioches jusqu’à avoir une main de taille 10 (dans l’implémentation actuelle : draw équivalent à la taille initiale de ta main, puis tu défausses jusqu’à revenir à 10 cartes si tu dépasses).
+
+Poacher – 4 – Action (custom)
++1 carte, +1 action, +1 pièce.
+Puis tu défausses 1 carte de ta main par pile vide dans la réserve.
+
+Harvest – 5 – Action (custom)
+Révèle les 4 premières cartes de ton deck.
+Compte le nombre de types différents parmi ces cartes (Trésor / Action / Victoire / Malédiction, etc.).
+Tu pioches jusqu’à 1 carte par type distinct (max 4), puis tu défausses toutes les cartes révélées.
+
+Mag Pie – 4 – Action (custom)
++1 carte, +1 action.
+Révèle la prochaine carte de ton deck :
+– si c’est un Trésor : tu la pioches, et tu gagnes 1 Mag Pie supplémentaire (si la pile Mag Pie n’est pas vide),
+– sinon : tu remets la carte sur le dessus du deck.
+
+Port – 4 – Action (custom)
++1 carte, +1 action.
+Effet “on buy” : quand tu achètes un Port, tu gagnes 1 Port supplémentaire (si la pile permet).
+
+Remake – 4 – Action (custom)
+Tu choisis une carte de ta main à trash.
+Tu gagnes une carte coûtant exactement 1 de plus (selon la logique choisie par ta stratégie).
+
 *Projet dans le cadre du cours Sciences de l'Ingénieur - Gestion de projet et développement d'API HTTP*
