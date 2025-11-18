@@ -87,7 +87,7 @@ Les points de victoire sont comptés en additionnant **toutes les cartes de vict
 ### Accès compte rendu
 Lien compte rendu : https://nosy-verdict-e0d.notion.site/2852160e7f5b80d5b21dfd14d2f722ef?v=2852160e7f5b808b9639000c96e77146&p=2852160e7f5b801ba6c1c47c6e6e6c04&pm=s
 
-### Liste des cartes utilisées 
+#### Liste des cartes 
 Trésors : 
 Copper – 0 – Trésor
 +1 pièce.
