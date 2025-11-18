@@ -88,7 +88,9 @@ Les points de victoire sont comptés en additionnant **toutes les cartes de vict
 Lien compte rendu : https://nosy-verdict-e0d.notion.site/2852160e7f5b80d5b21dfd14d2f722ef?v=2852160e7f5b808b9639000c96e77146&p=2852160e7f5b801ba6c1c47c6e6e6c04&pm=s
 
 #### Liste des cartes 
+
 Trésors : 
+
 Copper – 0 – Trésor
 +1 pièce.
 
@@ -101,7 +103,7 @@ Gold – 6 – Trésor
 Cursed Gold – 4 – Trésor (custom)
 Quand tu le joues : +3 pièces et tu gagnes 1 Curse (si disponible).
 
-Victoire
+Victoire :
 
 Estate – 2 – Victoire
 +1 point de victoire.
@@ -122,7 +124,7 @@ Malédiction
 Curse – 0 – Malédiction
 −1 point de victoire.
 
-Actions / Attaques “classiques”
+Actions / Attaques “classiques” :
 Village – 3 – Action
 +1 carte, +2 actions.
 
@@ -176,7 +178,7 @@ Bureaucrat – 4 – Action – Attaque
 Tu gagnes 1 Silver sur le dessus de ton deck.
 Chaque autre joueur met une carte Victoire de sa main sur le dessus de son deck (s’il en a).
 
-Actions custom / support
+Actions custom / support :
 
 Artificer – 5 – Action (custom)
 +1 carte, +1 action, +1 pièce.
