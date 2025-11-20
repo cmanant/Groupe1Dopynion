@@ -90,7 +90,7 @@ Lien compte rendu : https://nosy-verdict-e0d.notion.site/2852160e7f5b80d5b21dfd1
 
 ### Liste des cartes
 
-Trésors : 
+<ins>**Trésors**</ins> : 
 
 Copper – 0 – Trésor
 +1 pièce.
@@ -104,7 +104,7 @@ Gold – 6 – Trésor
 Cursed Gold – 4 – Trésor (custom)
 Quand tu le joues : +3 pièces et tu gagnes 1 Curse (si disponible).
 
-Victoire :
+<ins>**Victoire**</ins> :
 
 Estate – 2 – Victoire
 +1 point de victoire.
@@ -125,12 +125,14 @@ Malédiction
 Curse – 0 – Malédiction
 −1 point de victoire.
 
-Actions / Attaques “classiques” :
+<ins>**Actions / Attaques “classiques”**</ins> :
+
 Village – 3 – Action
 +1 carte, +2 actions.
 
 Smithy – 4 – Action
 +3 cartes.
+
 Market – 5 – Action
 +1 carte, +1 action, +1 achat, +1 pièce.
 
@@ -162,7 +164,29 @@ Chancellor – 3 – Action
 +2 pièces.
 Optionnel (dans la version complète) : tu peux défausser tout ton deck dans ta défausse.
 
-Attaques
+Ceillor - 2 - Action
++1 action, permet de défausser autant de carte que l'on veut et en repiocher le même nombre.
+
+Feast - 4 - Action
+Recevoir dans la défausse une carte qui vaut 5 cuivres, une fois utilisé carte écarté.
+
+Adventurer - 6 - Action
++2 cartes trésors dans la main, défausser les autres.
+
+Library - 5 - Action
+Piocher jusqu’à avoir 7 cartes en main, peut choisir si on prend carte action ou pas. (l’arbitre envoie une demande si on veut prendre la carte ou la défausser) 
+
+Workshop - 3 - Action
+une fois jouée on choisi une carte 4c ou moins dans la reserve.
+
+Magnet - 5 - Action
+Piocher une carte trésor dans le deck.
+
+Swap - 5 - Action
++1 carte, +1 action, piocher carte action dans la main et la remettre dans le magasin.
+
+<ins>**Attaques**</ins>:
+
 Witch – 5 – Action – Attaque
 +2 cartes.
 Chaque autre joueur gagne 1 Curse (si des Curses restent dans la pile).
@@ -179,7 +203,11 @@ Bureaucrat – 4 – Action – Attaque
 Tu gagnes 1 Silver sur le dessus de ton deck.
 Chaque autre joueur met une carte Victoire de sa main sur le dessus de son deck (s’il en a).
 
-Actions custom / support :
+Fortuneteller - 3 - Action - Attaque
++1 cuivre, Adversaires pioche jusqu'à avoir une carte malédiction ou victoire.
+
+
+<ins>**Actions custom / support**</ins> :
 
 Artificer – 5 – Action (custom)
 +1 carte, +1 action, +1 pièce.
