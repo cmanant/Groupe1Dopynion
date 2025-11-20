@@ -164,7 +164,7 @@ Chancellor – 3 – Action
 +2 pièces.
 Optionnel (dans la version complète) : tu peux défausser tout ton deck dans ta défausse.
 
-Ceillor - 2 - Action
+Cellar - 2 - Action
 +1 action, permet de défausser autant de carte que l'on veut et en repiocher le même nombre.
 
 Feast - 4 - Action
@@ -184,6 +184,12 @@ Piocher une carte trésor dans le deck.
 
 Swap - 5 - Action
 +1 carte, +1 action, piocher carte action dans la main et la remettre dans le magasin.
+
+Renovation - 4 - Action
+Elimine une carte de la main, prendre une carte qui coûte jusqu'à 2 de plus que la carte éliminée.
+
+Chapel - 2 - Action
+Enlever jusqu'à 4 cartes de notres main
 
 <ins>**Attaques**</ins>:
 
