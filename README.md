@@ -22,6 +22,7 @@ Gérer un royaume et obtenir le plus de points de victoire possible en construis
 - **60 Copper** (Cuivre)
 - **40 Silver** (Argent) 
 - **30 Gold** (Or)
+- **10 Platinum** (Platine)
 
 **Cartes Victoire** (selon le nombre de joueurs) :
 - **2 joueurs** : 8 cartes de chaque type
